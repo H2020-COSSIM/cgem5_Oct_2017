@@ -378,6 +378,8 @@ def addFSOptions(parser):
     parser.add_option("--TotalNodes", action="store", type="int", dest="TotalNodes",
                       help="Specify the total number of nodes")
     
+    parser.add_option("--mcpat-xml", action="store", type="string", default="empty", dest="McPATXml",
+                      help="Specify the McPAT xml ProcessorDescriptionFile")
     
     # Disk Image Options
     parser.add_option("--disk-image", action="store", type="string", default=None,
