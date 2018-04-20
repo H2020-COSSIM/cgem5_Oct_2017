@@ -49,6 +49,8 @@ from m5.params import *
 from m5.proxy import *
 from PciDevice import PciDevice
 
+import os
+
 class EtherObject(SimObject):
     type = 'EtherObject'
     abstract = True
@@ -82,20 +84,21 @@ class DistEtherLink(EtherObject):
     dist_sync_on_pseudo_op = Param.Bool(False, "Start sync with pseudo_op")
     num_nodes = Param.UInt32('2', "Number of simulate nodes")
     
-class COSSIMEtherLink(EtherObject):
-    type = 'COSSIMEtherLink'
-    cxx_header = "dev/net/COSSIMetherlink.hh"
-    interface = SlavePort("interface")
-    delay = Param.Latency('0us', "packet transmit delay")
-    delay_var = Param.Latency('0ns', "packet transmit delay variability")
-    speed = Param.NetworkBandwidth('1Gbps', "link speed")
-    dump = Param.EtherDump(NULL, "dump object")
-    nodeNum = Param.Int("Node Number")
-    TotalNodes = Param.Int("Total Nodes")
-    ticksPerNanoSecond =  Param.ConvertFromNanoSecToTicks('ticksPerNanoSecond', "ticksPerNanoSecond")
-    sys_clk = Param.String("System Clock")
-    SynchTime = Param.String("Synchronization Time")
-    RxPacketTime = Param.String("Minimum time in which the node can receive packet from OMNET++")
+if 'CERTI_SOURCE_DIRECTORY' in os.environ and 'CERTI_BINARY_DIRECTORY' in os.environ:
+    class COSSIMEtherLink(EtherObject):
+        type = 'COSSIMEtherLink'
+        cxx_header = "dev/net/COSSIMetherlink.hh"
+        interface = SlavePort("interface")
+        delay = Param.Latency('0us', "packet transmit delay")
+        delay_var = Param.Latency('0ns', "packet transmit delay variability")
+        speed = Param.NetworkBandwidth('1Gbps', "link speed")
+        dump = Param.EtherDump(NULL, "dump object")
+        nodeNum = Param.Int("Node Number")
+        TotalNodes = Param.Int("Total Nodes")
+        ticksPerNanoSecond =  Param.ConvertFromNanoSecToTicks('ticksPerNanoSecond', "ticksPerNanoSecond")
+        sys_clk = Param.String("System Clock")
+        SynchTime = Param.String("Synchronization Time")
+        RxPacketTime = Param.String("Minimum time in which the node can receive packet from OMNET++")
 
 class EtherBus(EtherObject):
     type = 'EtherBus'
